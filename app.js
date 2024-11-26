@@ -6,10 +6,10 @@ const container = document.getElementById("bite-container");
 
 // Function to parse CSV into JSON format
 function parseCSV(csv) {
-  const rows = csv.split("\n").slice(1); // Skip header
+  const rows = csv.split("\n").slice(1); // Skip header row
   return rows.map(row => {
-    const [categoria, tipo, descripcion] = row.split(",");
-    return { categoria, tipo, descripcion };
+    const [category, type, description] = row.split(",");
+    return { category: category.trim(), type: type.trim(), description: description.trim() };
   });
 }
 
@@ -37,11 +37,11 @@ function loadBite() {
 
   const tag = document.createElement("div");
   tag.className = "tag";
-  tag.textContent = bite.categoria;
+  tag.textContent = bite.category;
 
   const text = document.createElement("div");
   text.className = "text";
-  text.textContent = `${bite.tipo}: ${bite.descripcion}`;
+  text.textContent = `${bite.type}: ${bite.description}`;
 
   // Append elements
   biteElement.appendChild(tag);
@@ -69,5 +69,4 @@ function handleScroll() {
   }
 }
 
-// Initialize the application
-initialize();
+// Initialize
