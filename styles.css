@@ -1,0 +1,49 @@
+/* General Container */
+#bite-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Individual Bite Card */
+.bite {
+  background: white;
+  border: 1px solid #e6ecf0;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Category Tag */
+.tag {
+  font-size: 12px;
+  font-weight: bold;
+  color: #1da1f2; /* Twitter Blue */
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+/* Bite Text */
+.text {
+  font-size: 14px;
+  color: #14171a; /* Dark gray for readability */
+  line-height: 1.5;
+}
+
+/* Scroll Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
