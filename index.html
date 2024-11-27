@@ -12,7 +12,10 @@
     <header class="app-header">
       <h1>La IA para el gobierno peruano</h1>
     </header>
-    <main class="app-content" id="content"></main>
+    <main class="app-content">
+      <div id="content"></div>
+      <div id="loader" class="hidden">Cargando...</div>
+    </main>
   </div>
 
   <script>
@@ -26,40 +29,48 @@
     async function renderCard(index) {
       const data = await fetchData();
       const contentDiv = document.getElementById("content");
-      contentDiv.innerHTML = ""; // Clear previous content
+      const loader = document.getElementById("loader");
 
-      if (index >= data.length) return; // Stop if no more cards
+      if (index >= data.length) {
+        loader.classList.add("hidden"); // Hide loader if all cards are displayed
+        return;
+      }
 
-      const item = data[index];
-      const tile = document.createElement("div");
-      tile.className = "card-tile";
+      loader.classList.remove("hidden"); // Show loader during card rendering
 
-      const header = document.createElement("div");
-      header.className = "card-header";
+      setTimeout(() => {
+        const item = data[index];
+        const tile = document.createElement("div");
+        tile.className = "card-tile";
 
-      const category = document.createElement("h3");
-      category.textContent = item.Category;
+        const header = document.createElement("div");
+        header.className = "card-header";
 
-      const tag = document.createElement("div");
-      tag.className = "pill-tags";
-      tag.innerHTML = `<span class="bx--tag bx--tag--blue">${item.Type}</span>`;
+        const category = document.createElement("h3");
+        category.textContent = item.Category;
 
-      const description = document.createElement("p");
-      description.className = "card-description";
-      description.textContent = item.Description;
+        const tag = document.createElement("div");
+        tag.className = "pill-tags";
+        tag.innerHTML = `<span class="bx--tag bx--tag--blue">${item.Type}</span>`;
 
-      header.appendChild(category);
-      header.appendChild(tag);
-      tile.appendChild(header);
-      tile.appendChild(description);
+        const description = document.createElement("p");
+        description.className = "card-description";
+        description.textContent = item.Description;
 
-      contentDiv.appendChild(tile);
+        header.appendChild(category);
+        header.appendChild(tag);
+        tile.appendChild(header);
+        tile.appendChild(description);
+
+        contentDiv.appendChild(tile); // Append instead of replacing
+        loader.classList.add("hidden"); // Hide loader after rendering
+      }, 300); // Simulate loading time
     }
 
     // Infinite scroll logic
     let currentIndex = 0;
     window.addEventListener("scroll", () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
         currentIndex += 1;
         renderCard(currentIndex);
       }
