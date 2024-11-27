@@ -21,20 +21,30 @@
   animation: fadeIn 0.4s ease-in-out;
 }
 
-/* Category Tag */
-.tag {
-  font-size: 14px;
-  font-weight: bold;
-  color: #1da1f2; /* Twitter Blue */
-  text-transform: uppercase;
+/* Tags Container */
+.tags {
+  display: flex;
+  gap: 10px;
   margin-bottom: 5px;
 }
 
-/* Bite Text */
+/* Individual Tag Styling */
+.tag {
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  background-color: #1da1f2; /* Twitter Blue */
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+/* Description Styling */
 .text {
   font-size: 16px;
   color: #14171a; /* Dark gray for readability */
   line-height: 1.6;
+  margin-top: 10px;
 }
 
 /* Scroll Animation */
