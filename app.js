@@ -33,16 +33,29 @@ function loadBite() {
   const biteElement = document.createElement("div");
   biteElement.className = "bite";
 
-  const tag = document.createElement("div");
-  tag.className = "tag";
-  tag.textContent = bite.category;
+  // Create tags container
+  const tagsContainer = document.createElement("div");
+  tagsContainer.className = "tags";
 
+  const categoryTag = document.createElement("div");
+  categoryTag.className = "tag";
+  categoryTag.textContent = bite.category;
+
+  const typeTag = document.createElement("div");
+  typeTag.className = "tag";
+  typeTag.textContent = bite.type;
+
+  // Append tags to tags container
+  tagsContainer.appendChild(categoryTag);
+  tagsContainer.appendChild(typeTag);
+
+  // Create description
   const text = document.createElement("div");
   text.className = "text";
-  text.textContent = `${bite.type}: ${bite.description}`;
+  text.textContent = bite.description;
 
-  // Append elements
-  biteElement.appendChild(tag);
+  // Append tags and text to bite element
+  biteElement.appendChild(tagsContainer);
   biteElement.appendChild(text);
   container.appendChild(biteElement);
 }
