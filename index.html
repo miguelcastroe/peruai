@@ -5,59 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La IA para el gobierno peruano</title>
   <link rel="stylesheet" href="https://unpkg.com/carbon-components/css/carbon-components.min.css">
-  <style>
-    body {
-      font-family: "IBM Plex Sans", sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .app {
-      padding: 20px;
-    }
-
-    .app-header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .app-header h1 {
-      font-size: 2rem;
-    }
-
-    .app-content {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin: 0 auto;
-      max-width: 800px;
-    }
-
-    .card-tile {
-      padding: 20px;
-      border: 1px solid #dde1e6;
-      border-radius: 8px;
-      background-color: #ffffff;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .pill-tags {
-      display: flex;
-      gap: 5px;
-    }
-
-    .card-description {
-      font-size: 1rem;
-      color: #393939;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
@@ -68,88 +16,57 @@
   </div>
 
   <script>
-    // Data from CSV
-    const data = [
-      {
-        "Category": "IA",
-        "Type": "Propuesta",
-        "Description": "La inteligencia artificial en Perú busca revolucionar el sector público.",
-        "Priority": "Medium",
-        "ID": 1,
-        "Date Added": "2024-11-27",
-        "Author": "Miguel Castro",
-        "Relevance Score": 5
-      },
-      {
-        "Category": "IA",
-        "Type": "Observación",
-        "Description": "Aunque la inclusión social es un objetivo, no se aborda el acceso digital.",
-        "Priority": "Medium",
-        "ID": 2,
-        "Date Added": "2024-11-27",
-        "Author": "Miguel Castro",
-        "Relevance Score": 5
-      },
-      {
-        "Category": "IA",
-        "Type": "Reflexión",
-        "Description": "La falta de referencias a modelos de lenguaje locales limita el impacto.",
-        "Priority": "Medium",
-        "ID": 3,
-        "Date Added": "2024-11-27",
-        "Author": "Miguel Castro",
-        "Relevance Score": 5
-      },
-      {
-        "Category": "IA",
-        "Type": "Sugerencia",
-        "Description": "Integrar tecnologías de IA multimodal y LLM para mejorar procesos educativos.",
-        "Priority": "Medium",
-        "ID": 4,
-        "Date Added": "2024-11-27",
-        "Author": "Miguel Castro",
-        "Relevance Score": 5
-      }
-    ];
-
-    // Function to render cards
-    function renderCards(visibleCards = 5) {
-      const contentDiv = document.getElementById("content");
-      contentDiv.innerHTML = ""; // Clear previous cards
-
-      data.slice(0, visibleCards).forEach((item) => {
-        const tile = document.createElement("div");
-        tile.className = "card-tile";
-
-        const header = document.createElement("div");
-        header.className = "card-header";
-
-        const category = document.createElement("h3");
-        category.textContent = item.Category;
-
-        const tag = document.createElement("div");
-        tag.className = "pill-tags";
-        tag.innerHTML = `<span class="bx--tag bx--tag--blue">${item.Type}</span>`;
-
-        const description = document.createElement("p");
-        description.className = "card-description";
-        description.textContent = item.Description;
-
-        header.appendChild(category);
-        header.appendChild(tag);
-        tile.appendChild(header);
-        tile.appendChild(description);
-
-        contentDiv.appendChild(tile);
-      });
+    // Fetch data from JSON file
+    async function fetchData() {
+      const response = await fetch('bites_supa.json');
+      return await response.json();
     }
 
-    // Initial render
-    let visibleCards = 5;
-    renderCards(visibleCards);
+    // Render a single card
+    async function renderCard(index) {
+      const data = await fetchData();
+      const contentDiv = document.getElementById("content");
+      contentDiv.innerHTML = ""; // Clear previous content
 
-    // Infinite scroll
+      if (index >= data.length) return; // Stop if no more cards
+
+      const item = data[index];
+      const tile = document.createElement("div");
+      tile.className = "card-tile";
+
+      const header = document.createElement("div");
+      header.className = "card-header";
+
+      const category = document.createElement("h3");
+      category.textContent = item.Category;
+
+      const tag = document.createElement("div");
+      tag.className = "pill-tags";
+      tag.innerHTML = `<span class="bx--tag bx--tag--blue">${item.Type}</span>`;
+
+      const description = document.createElement("p");
+      description.className = "card-description";
+      description.textContent = item.Description;
+
+      header.appendChild(category);
+      header.appendChild(tag);
+      tile.appendChild(header);
+      tile.appendChild(description);
+
+      contentDiv.appendChild(tile);
+    }
+
+    // Infinite scroll logic
+    let currentIndex = 0;
     window.addEventListener("scroll", () => {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        visibleCards += 5;
-        if (visib
+        currentIndex += 1;
+        renderCard(currentIndex);
+      }
+    });
+
+    // Initial render
+    renderCard(currentIndex);
+  </script>
+</body>
+</html>
