@@ -47,9 +47,12 @@ function loadBite() {
   container.appendChild(biteElement);
 }
 
-// Check if user scrolled near the bottom
+// Improved scroll handling
 function handleScroll() {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+  const scrollOffset = window.innerHeight + window.scrollY;
+  const threshold = document.body.offsetHeight - 50;
+
+  if (scrollOffset >= threshold) {
     loadBite(); // Load one bite per scroll
   }
 }
