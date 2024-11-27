@@ -1,17 +1,15 @@
-// Supabase CSV URL
-const csvUrl = "https://ouauehtpqfvldbvsihpu.supabase.co/storage/v1/object/public/portfolio/bites_supa.csv";
-let bites = [];
+// Manually added bites from the CSV
+const bites = [
+  { category: "IA", type: "Propuesta", description: "La inteligencia artificial busca revolucionar los servicios públicos." },
+  { category: "Datos Abiertos", type: "Beneficio", description: "El portal PNDA democratiza el acceso a la información pública." },
+  { category: "IA", type: "Crítica", description: "Falta de presupuestos claros pone en riesgo la implementación." },
+  { category: "Datos Abiertos", type: "Propuesta", description: "Crear incentivos fiscales para fomentar la adopción de datos abiertos." },
+  { category: "IA", type: "Beneficio", description: "La IA puede transformar sectores clave como salud y educación." },
+  { category: "Datos Abiertos", type: "Crítica", description: "La calidad de los datos no está alineada con las necesidades de IA avanzada." }
+];
+
 let currentIndex = 0;
 const container = document.getElementById("bite-container");
-
-// Function to parse CSV into JSON format
-function parseCSV(csv) {
-  const rows = csv.split("\n").slice(1); // Skip header row
-  return rows.map(row => {
-    const [category, type, description] = row.split(",");
-    return { category: category.trim(), type: type.trim(), description: description.trim() };
-  });
-}
 
 // Function to load a single bite into the UI
 function loadBite() {
@@ -49,19 +47,6 @@ function loadBite() {
   container.appendChild(biteElement);
 }
 
-// Fetch CSV and initialize the app
-async function initialize() {
-  try {
-    const response = await fetch(csvUrl);
-    const csvText = await response.text();
-    bites = parseCSV(csvText);
-    loadBite(); // Load the first bite initially
-    window.addEventListener("scroll", handleScroll);
-  } catch (error) {
-    console.error("Error fetching CSV:", error);
-  }
-}
-
 // Check if user scrolled near the bottom
 function handleScroll() {
   if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
@@ -69,4 +54,11 @@ function handleScroll() {
   }
 }
 
-// Initialize
+// Initialize the application
+function initialize() {
+  loadBite(); // Load the first bite initially
+  window.addEventListener("scroll", handleScroll);
+}
+
+// Start the application
+initialize();
